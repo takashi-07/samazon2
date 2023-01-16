@@ -28,3 +28,5 @@ src/config/master.key
 
 src/db/mysql_data
 
+.env
+
