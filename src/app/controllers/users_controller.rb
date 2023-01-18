@@ -34,6 +34,21 @@ class UsersController < ApplicationController
     @favorites = @user.likees(Product)
   end
 
+  def destroy
+    @user.deleted_flg = User.switch_flg(@user.deleted_flg)
+    @user.update(deleted_flg: @user.deleted_flg)
+    redirect_to mypage_users_url
+  end
+
+  def cart_history_index
+    @orders = ShoppingCart.search_bought_carts_by_user(@user).page(params[:page]).per(15)
+  end
+
+  def cart_history_show
+    @cart = ShoppingCart.find(params[:num])
+    @cart_items = ShoppingCartItem.user_cart_items(@cart.id)
+  end
+
   private
   def set_user
     @user = current_user
